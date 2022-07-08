@@ -37,18 +37,21 @@ const Navbar = () => {
         <a className="navbar-brand fw-bold fw-size-2" href=".">
           Calmmoney
         </a>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarCollapse"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div className="collapse navbar-collapse">
-          <ul className="navbar-nav ms-auto gap-3 mb-2 mb-md-0">
-            {location.pathname !== "/landing" &&
-              (!is_authenticated ? (
+        {location.pathname !== "/landing" && (
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarCollapse"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+        )}
+
+        {location.pathname !== "/landing" && (
+          <div className="collapse navbar-collapse">
+            <ul className="navbar-nav ms-auto gap-3 mb-2 mb-md-0">
+              {!is_authenticated ? (
                 <>
                   <li className="nav-item">
                     <Link to="/login" className="nav-link nav-btn px-4">
@@ -67,9 +70,10 @@ const Navbar = () => {
                     Logout
                   </button>
                 </li>
-              ))}
-          </ul>
-        </div>
+              )}
+            </ul>
+          </div>
+        )}
       </div>
     </nav>
   )

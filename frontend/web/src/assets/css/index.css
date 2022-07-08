@@ -166,7 +166,7 @@ body {
 }
 
 .landing-features div {
-  width: 300px;
+  width: 30%;
 }
 
 .landing-features img {
@@ -178,6 +178,13 @@ body {
   width: 100px;
 }
 
+
+.questions-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
 @media (max-width: 600px) {
 
   .hero-section h1 {
@@ -186,7 +193,7 @@ body {
   }
 
   .landing-wrapper {
-    padding: 0 7%;
+    padding: 0 3%;
   }
 
   .landing-features {
