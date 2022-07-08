@@ -3,13 +3,25 @@ import connect from "../assets/images/connect.svg"
 import question from "../assets/images/questions.svg"
 import analytics from "../assets/images/analytics1.svg"
 import arrow from "../assets/images/arrowforward.svg"
+import arrowdown from "../assets/images/arrowdown.svg"
+import { useNavigate } from "react-router-dom"
 
 export default function LandingPage() {
+  const navigate = useNavigate()
+
+  const handleClick = () => {
+    navigate("../login")
+  }
+
   return (
     <div className="landing-wrapper">
       <div className="hero-section">
         <h1>We aim to help you save and plan in the easiest way possible</h1>
-        <button>Connect</button>
+        <button onClick={handleClick}>Connect</button>
+      </div>
+
+      <div>
+        <img className="arrow-down my-5" src={arrowdown} alt="arrow down" />
       </div>
 
       <div className="landing-hiw">How it works</div>

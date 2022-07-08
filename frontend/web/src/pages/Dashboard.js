@@ -33,7 +33,7 @@ export const Dashboard = () => {
           Answer these fw questions let our AI do the prediction.
         </h4>
         <form onSubmit={handleSubmit}>
-          <div className="questions-wrapper rounded-4">{questionsExcerpt}</div>
+          <div className="questions-wrapper rounded-4 px-3">{questionsExcerpt}</div>
           <center className="my-2">
             <button
               className="btn text-white fw-bold px-5 py-2 mt-3 rounded-4 bg-dominant"
