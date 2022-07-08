@@ -1,123 +1,151 @@
-import { Login } from "./pages/Login";
-import { BrowserRouter, Route, Routes, Link, Navigate } from "react-router-dom";
-import { Home } from "./pages/Home";
-import { Register } from "./pages/Register";
-import { useAuth } from "./stores";
-import { Dashboard } from "./pages/Dashboard";
-import shallow  from 'zustand/shallow';
-import { backend } from "./api_interface";
-import toast from "react-hot-toast";
-import { useEffect } from "react";
-import { AuthSuspense } from "./AuthSuspense";
+import { Login } from "./pages/Login"
+import { Route, Routes, Link, Navigate } from "react-router-dom"
+import { Home } from "./pages/Home"
+import { Register } from "./pages/Register"
+import { useAuth } from "./stores"
+import { Dashboard } from "./pages/Dashboard"
+import shallow from "zustand/shallow"
+import { backend } from "./api_interface"
+import toast from "react-hot-toast"
+import { useEffect } from "react"
+import { AuthSuspense } from "./AuthSuspense"
+import LandingPage from "./pages/LandingPage"
+import { useLocation } from "react-router-dom"
 
-const Navbar = () =>{
-  const [is_authenticated, setIsAuthenticated] = useAuth(state => [state.is_authenticated, state.setIsAuthenticated], shallow);
-  
-  const logout = async() => {
-    try{  
-      const response = await backend.post('api/user/logout/');
-      if (response.status === 200){
-        setIsAuthenticated(false);
+const Navbar = () => {
+  const [is_authenticated, setIsAuthenticated] = useAuth(
+    (state) => [state.is_authenticated, state.setIsAuthenticated],
+    shallow
+  )
+
+  const location = useLocation()
+
+  const logout = async () => {
+    try {
+      const response = await backend.post("api/user/logout/")
+      if (response.status === 200) {
+        setIsAuthenticated(false)
       }
-    }catch(e){
-      console.log(e);
+    } catch (e) {
+      console.log(e)
     }
   }
 
-  
   return (
     <nav className="navbar navbar-expand-md  bg-none text-black mb-4">
       <div className="container">
-        <a className="navbar-brand fw-bold fw-size-2" href=".">Faucet</a>
-        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" >
+        <a className="navbar-brand fw-bold fw-size-2" href=".">
+          Calmmoney
+        </a>
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarCollapse"
+        >
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse">
           <ul className="navbar-nav ms-auto gap-3 mb-2 mb-md-0">
-          {!is_authenticated ? <>
-            <li className="nav-item">
-              <Link to='/login' className="nav-link nav-btn px-4">Log in</Link>
-            </li>
-            <li className="nav-item">
-              <Link to='/register' className="nav-link nav-btn px-4">Register</Link>
-            </li>
-            </>  : 
-            <li className="nav-item">
-              <button type="button" onClick={logout} className="nav-link nav-btn px-4 bg-none">Logout</button>
-            </li>
-          }
+            {location.pathname !== "/landing" &&
+              (!is_authenticated ? (
+                <>
+                  <li className="nav-item">
+                    <Link to="/login" className="nav-link nav-btn px-4">
+                      Log in
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link to="/register" className="nav-link nav-btn px-4">
+                      Register
+                    </Link>
+                  </li>
+                </>
+              ) : (
+                <li className="nav-item">
+                  <button type="button" onClick={logout} className="nav-link nav-btn px-4 bg-none">
+                    Logout
+                  </button>
+                </li>
+              ))}
           </ul>
         </div>
-  </div>
-</nav>
+      </div>
+    </nav>
   )
 }
 
 const App = () => {
-    const [is_authenticated, setIsAuthenticated] = useAuth(state => [state.is_authenticated, state.setIsAuthenticated], shallow);
+  const [is_authenticated, setIsAuthenticated] = useAuth(
+    (state) => [state.is_authenticated, state.setIsAuthenticated],
+    shallow
+  )
 
-    const setUserMail = useAuth(state => state.setUserMail);
-    useEffect(() => {
-      (
-          async () => {
-              try{
-                  const response = await backend.get('api/user/');
-                  const { email } = response.data;
-                  if (email){
-                      setIsAuthenticated(true);
-                      setUserMail(email);
-                  }
-              }
-              catch(e){
-                  setUserMail('');
-                  setIsAuthenticated(false);
-                  console.log(e);
-              }
-          }
-      )();
-  }, [setIsAuthenticated,setUserMail])
-
+  const setUserMail = useAuth((state) => state.setUserMail)
+  useEffect(() => {
+    ;(async () => {
+      try {
+        const response = await backend.get("api/user/")
+        const { email } = response.data
+        if (email) {
+          setIsAuthenticated(true)
+          setUserMail(email)
+        }
+      } catch (e) {
+        setUserMail("")
+        setIsAuthenticated(false)
+        console.log(e)
+      }
+    })()
+  }, [setIsAuthenticated, setUserMail])
 
   const ProtectedRoute = ({ auth, children }) => {
     if (!auth) {
-      toast.error("You are not authorized to view this page");
-      return <Navigate to="/login" replace />;
+      toast.error("You are not authorized to view this page")
+      return <Navigate to="/login" replace />
     }
-  
-    return children;
-  };
+
+    return children
+  }
   return (
     <div className="main-app">
-    <BrowserRouter>
       <Navbar />
-        <Routes>
-          <Route index exact element={
-                <AuthSuspense is_auth={is_authenticated} >
-                  <Home />
-                </AuthSuspense>
-          } />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          
-          <Route path="/dashboard" element={
-            <ProtectedRoute auth={is_authenticated} > 
-                <AuthSuspense is_auth={is_authenticated} >
-                  <Dashboard />
-                </AuthSuspense>
+      <Routes>
+        <Route path="/landing" element={<LandingPage />} />
+        <Route
+          index
+          exact
+          element={
+            <AuthSuspense is_auth={is_authenticated}>
+              <Home />
+            </AuthSuspense>
+          }
+        />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute auth={is_authenticated}>
+              <AuthSuspense is_auth={is_authenticated}>
+                <Dashboard />
+              </AuthSuspense>
             </ProtectedRoute>
-          } />
-          
-          <Route path="*" element={
+          }
+        />
+
+        <Route
+          path="*"
+          element={
             <center>
               <p className="fw-bold">Oops! seems like a dead end..</p>
             </center>
-          } />
-        </Routes>
-    </BrowserRouter>
+          }
+        />
+      </Routes>
     </div>
-
-    
-  );
+  )
 }
 
-export default App;
+export default App
