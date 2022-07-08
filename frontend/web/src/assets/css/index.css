@@ -125,16 +125,6 @@ body {
   align-items: center;
 }
 
-.landing-nav {
-  align-self: flex-start;
-  padding: 1rem;
-}
-
-.landing-nav h2 {
-  font-weight: 700;
-  font-size: 2em;
-  line-height: 24px;
-}
 
 .hero-section {
   margin-top: 6rem;
@@ -157,8 +147,8 @@ body {
 
 .hero-section h1 {
   font-weight: 700;
-  font-size: 64px;
-  line-height: 70px;
+  font-size: 4rem;
+  line-height: 4.3rem;
   text-align: center;
 }
 
@@ -181,13 +171,19 @@ body {
 
 .landing-features img {
   width: 100%;
+  margin-bottom: 1rem;
 }
 
 .landing-features img.arrow {
   width: 100px;
 }
 
-@media (min-width: 600px) {
+@media (max-width: 600px) {
+
+  .hero-section h1 {
+    font-size: 2rem;
+    line-height: 2.3rem;
+  }
 
   .landing-wrapper {
     padding: 0 7%;
