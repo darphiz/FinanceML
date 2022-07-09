@@ -1,6 +1,5 @@
 import { Login } from "./pages/Login"
 import { Route, Routes, Link, Navigate } from "react-router-dom"
-import { Home } from "./pages/Home"
 import { Register } from "./pages/Register"
 import { useAuth } from "./stores"
 import { Dashboard } from "./pages/Dashboard"
@@ -50,7 +49,7 @@ const Navbar = () => {
 
         {location.pathname !== "/landing" && (
           <div className="collapse navbar-collapse">
-            <ul className="navbar-nav ms-auto gap-3 mb-2 mb-md-0">
+            <ul className="navbar-nav ms-auto d-grid gap-fix mb-2 mb-md-0">
               {!is_authenticated ? (
                 <>
                   <li className="nav-item">
@@ -65,11 +64,19 @@ const Navbar = () => {
                   </li>
                 </>
               ) : (
+                <>
+                <li className="nav-item">
+                  <button type="button" className="nav-link nav-btn px-4 bg-none">
+                    Connect Bank
+                  </button>
+                </li>
+
                 <li className="nav-item">
                   <button type="button" onClick={logout} className="nav-link nav-btn px-4 bg-none">
                     Logout
                   </button>
                 </li>
+              </>
               )}
             </ul>
           </div>
@@ -115,16 +122,7 @@ const App = () => {
     <div className="main-app">
       <Navbar />
       <Routes>
-        <Route path="/landing" element={<LandingPage />} />
-        <Route
-          index
-          exact
-          element={
-            <AuthSuspense is_auth={is_authenticated}>
-              <Home />
-            </AuthSuspense>
-          }
-        />
+        <Route index element={<LandingPage />}/>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 

@@ -17,7 +17,7 @@ export default function LandingPage() {
     <div className="landing-wrapper">
       <div className="hero-section">
         <h1>We aim to help you save and plan in the easiest way possible</h1>
-        <button onClick={handleClick}>Connect</button>
+        <button className="px-5 my-5" onClick={handleClick}>Connect</button>
       </div>
 
       <div>
@@ -29,7 +29,7 @@ export default function LandingPage() {
       <div className="landing-features">
         <div>
           <img src={connect} alt="iki" />
-          <p>
+          <p className="text-center">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
             incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
             exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
@@ -40,7 +40,7 @@ export default function LandingPage() {
 
         <div>
           <img src={question} alt="iki" />
-          <p>
+          <p className="text-center">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
             incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
             exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
@@ -51,7 +51,7 @@ export default function LandingPage() {
 
         <div>
           <img src={analytics} alt="iki" />
-          <p>
+          <p className="text-center">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
             incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
             exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure

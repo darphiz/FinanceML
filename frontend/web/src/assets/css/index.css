@@ -147,7 +147,7 @@ body {
 
 .hero-section h1 {
   font-weight: 700;
-  font-size: 4rem;
+  font-size: 3.6rem;
   line-height: 4.3rem;
   text-align: center;
 }
@@ -169,13 +169,19 @@ body {
   width: 30%;
 }
 
+.gap-fix{
+  grid-template-columns: auto auto;
+  grid-gap: 1rem;
+}
+
 .landing-features img {
   width: 100%;
-  margin-bottom: 1rem;
+  margin-bottom: 1.8rem;
+  height: 12rem;
 }
 
 .landing-features img.arrow {
-  width: 100px;
+  width: 4rem;
 }
 
 
@@ -185,7 +191,6 @@ body {
   gap: 2rem;
 }
 
-.landing-features img.arrow-down {}
 
 @media (max-width: 600px) {
 

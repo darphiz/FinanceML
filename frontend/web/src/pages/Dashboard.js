@@ -1,11 +1,11 @@
 export const Dashboard = () => {
   const questions = [
-    { qusetion: "question1", name: "question1" },
-    { qusetion: "question2", name: "question2" },
-    { qusetion: "question3", name: "question3" },
-    { qusetion: "question4", name: "question4" },
-    { qusetion: "question5", name: "question5" },
-    { qusetion: "question6", name: "question6" },
+    { question: "question1", name: "question1" },
+    { question: "question2", name: "question2" },
+    { question: "question3", name: "question3" },
+    { question: "question4", name: "question4" },
+    { question: "question5", name: "question5" },
+    { question: "question6", name: "question6" },
   ]
 
   const handleSubmit = (e) => {
@@ -17,7 +17,7 @@ export const Dashboard = () => {
       <input
         type="text"
         className="form-control p-3 rounded-4"
-        placeholder={q.qusetion}
+        placeholder={q.question}
         name={q.name}
         // onChange={}
         // value={password}
@@ -30,7 +30,7 @@ export const Dashboard = () => {
     <div className="row">
       <div className="mx-auto col-sm-12 col-md-6 pb-5">
         <h4 className="text-center mb-3">
-          Answer these fw questions let our AI do the prediction.
+          Answer these few questions let our AI do the prediction.
         </h4>
         <form onSubmit={handleSubmit}>
           <div className="questions-wrapper rounded-4 px-3">{questionsExcerpt}</div>
