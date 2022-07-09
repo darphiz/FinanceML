@@ -4,7 +4,7 @@ import { Navigate } from "react-router-dom";
 import { useAuth } from "../stores";
 import shallow from 'zustand/shallow'
 import toast from 'react-hot-toast';
-
+import { Link } from "react-router-dom";
 
 export const Login = () => {
     const [email, setEmail] = useState('');
@@ -16,7 +16,6 @@ export const Login = () => {
         e.preventDefault();
         try{
         const response = await backend.post('api/user/login/', { email, password });
-        console.log(response.data)
         if (response.status === 200) {
             toast.success('Hello, there!');
             setIsAuthenticated(true);
@@ -52,6 +51,8 @@ export const Login = () => {
             
             {error && <p className="text-danger text-center">{error}</p>}
             <center className="my-2">
+                <p>New here? <Link to='/register'>Sign Up</Link></p>
+
                 <button className="btn text-white fw-bold px-5 py-2 rounded-4 bg-dominant" type="submit">Go</button>
             </center>
     
