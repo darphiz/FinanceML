@@ -10,8 +10,10 @@ import { useEffect } from "react"
 import { AuthSuspense } from "./AuthSuspense"
 import LandingPage from "./pages/LandingPage"
 import { useLocation } from "react-router-dom"
+import React from "react"
+import useMyPlaid from "./hooks/useMyPlaid"
 
-const Navbar = () => {
+const Navbar = ({ plaidOpen, ready }) => {
   const [is_authenticated, setIsAuthenticated] = useAuth(
     (state) => [state.is_authenticated, state.setIsAuthenticated],
     shallow
@@ -24,6 +26,7 @@ const Navbar = () => {
       const response = await backend.post("api/user/logout/")
       if (response.status === 200) {
         setIsAuthenticated(false)
+        // localStorage.removeItem("jwt")
       }
     } catch (e) {
       console.log(e)
@@ -65,18 +68,27 @@ const Navbar = () => {
                 </>
               ) : (
                 <>
-                <li className="nav-item">
-                  <button type="button" className="nav-link nav-btn px-4 bg-none">
-                    Connect Bank
-                  </button>
-                </li>
+                  <li className="nav-item">
+                    <button
+                      type="button"
+                      onClick={() => plaidOpen()}
+                      className="nav-link nav-btn px-4 bg-none"
+                      disabled={!ready}
+                    >
+                      Connect Bank
+                    </button>
+                  </li>
 
-                <li className="nav-item">
-                  <button type="button" onClick={logout} className="nav-link nav-btn px-4 bg-none">
-                    Logout
-                  </button>
-                </li>
-              </>
+                  <li className="nav-item">
+                    <button
+                      type="button"
+                      onClick={logout}
+                      className="nav-link nav-btn px-4 bg-none"
+                    >
+                      Logout
+                    </button>
+                  </li>
+                </>
               )}
             </ul>
           </div>
@@ -91,6 +103,17 @@ const App = () => {
     (state) => [state.is_authenticated, state.setIsAuthenticated],
     shallow
   )
+
+  const { open, ready, isOauth, createLinkToken, linkToken } = useMyPlaid()
+
+  useEffect(() => {
+    if (linkToken == null) {
+      createLinkToken()
+    }
+    if (isOauth && ready) {
+      open()
+    }
+  }, [linkToken, isOauth, ready, open])
 
   const setUserMail = useAuth((state) => state.setUserMail)
   useEffect(() => {
@@ -120,9 +143,9 @@ const App = () => {
   }
   return (
     <div className="main-app">
-      <Navbar />
+      <Navbar plaidOpen={open} ready={ready} />
       <Routes>
-        <Route index element={<LandingPage />}/>
+        <Route index element={<LandingPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 

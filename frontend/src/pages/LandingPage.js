@@ -10,14 +10,16 @@ export default function LandingPage() {
   const navigate = useNavigate()
 
   const handleClick = () => {
-    navigate("../login")
+    navigate("../dashboard")
   }
 
   return (
     <div className="landing-wrapper">
       <div className="hero-section">
         <h1>We aim to help you save and plan in the easiest way possible</h1>
-        <button className="px-5 my-5" onClick={handleClick}>Connect</button>
+        <button className="px-5 my-5" onClick={handleClick}>
+          Connect
+        </button>
       </div>
 
       <div>
