@@ -26,7 +26,7 @@ const Navbar = ({ plaidOpen, ready }) => {
       const response = await backend.post("api/user/logout/")
       if (response.status === 200) {
         setIsAuthenticated(false)
-        // localStorage.removeItem("jwt")
+        localStorage.removeItem("jwt")
       }
     } catch (e) {
       console.log(e)
@@ -107,13 +107,13 @@ const App = () => {
   const { open, ready, isOauth, createLinkToken, linkToken } = useMyPlaid()
 
   useEffect(() => {
-    if (linkToken == null) {
+    if (linkToken == null && is_authenticated) {
       createLinkToken()
     }
     if (isOauth && ready) {
       open()
     }
-  }, [linkToken, isOauth, ready, open])
+  }, [linkToken, isOauth, ready, open, is_authenticated])
 
   const setUserMail = useAuth((state) => state.setUserMail)
   useEffect(() => {
