@@ -1,10 +1,12 @@
 import React from "react"
-import { backend } from "../api_interface"
+import backend from "../api_interface"
 import { useLinkToken } from "../stores"
 import { usePlaidLink } from "react-plaid-link"
 
 function useMyPlaid() {
   const [linkToken, setLinkToken] = useLinkToken((state) => [state.linkToken, state.setLinkToken])
+
+  // console.log(backend)
 
   const onSuccess = React.useCallback(async (publicToken) => {
     // setLoading(true);  plaid/exchange_public_token/
@@ -25,7 +27,7 @@ function useMyPlaid() {
 
   const createLinkToken = React.useCallback(async () => {
     if (window.location.href.includes("?oauth_state_id=")) {
-      const linkToken = localStorage.getItem("link_token")
+      localStorage.getItem("link_token")
       setLinkToken(linkToken)
     } else {
       const { data } = await backend.post("api/plaid/create_link_token/")
@@ -33,7 +35,7 @@ function useMyPlaid() {
       setLinkToken(data.link_token)
       localStorage.setItem("link_token", data.link_token)
     }
-  }, [setLinkToken])
+  }, [linkToken, setLinkToken])
 
   let isOauth = false
 

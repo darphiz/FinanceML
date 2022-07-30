@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { backend } from "../api_interface"
+import backend from "../api_interface"
 import { Navigate } from "react-router-dom"
 import { useAuth } from "../stores"
 import shallow from "zustand/shallow"
@@ -18,19 +18,20 @@ export const Login = () => {
     (state) => [state.is_authenticated, state.setIsAuthenticated],
     shallow
   )
+
   const submitForm = async (e) => {
     e.preventDefault()
     try {
       const response = await backend.post("api/user/login/", { email, password })
       if (response.status === 200) {
         toast.success("Hello, there!")
+        localStorage.setItem("jwt", response.data.token)
         setIsAuthenticated(true)
         setUserMail(response.data.email)
 
         let expires = new Date()
         expires.setTime(expires.getTime() + Number(response.data.exp) * 1000)
         setCookie("jwt", response.data.token, { path: "/", expires })
-        localStorage.setItem("jwt", response.data.token)
       }
     } catch (e) {
       const message = e.response.data.detail

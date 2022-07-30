@@ -11,3 +11,8 @@ export const useLinkToken = create((set) => ({
   linkToken: null,
   setLinkToken: (token) => set({ linkToken: token }),
 }))
+
+export const useToken = create((set) => ({
+  token: null,
+  setToken: (token) => set({ token }),
+}))

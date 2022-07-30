@@ -46,7 +46,12 @@ client = plaid_api.PlaidApi(api_client)
 
 @api_view(['POST'])
 def create_link_token(request):
-    token = request.headers["Authorization"].split(" ")[1]
+    try:
+        token = request.headers["Authorization"].split(" ")[1]
+    except:
+        token = None
+    
+    print(request.headers["Authorization"])
 
     if token is None:
         raise AuthenticationFailed('Please log in')
@@ -60,8 +65,6 @@ def create_link_token(request):
     data = UserSerializer(user).data
 
     client_user_id = str(data["id"])
-
-    print(f"user {client_user_id}")
 
     res= LinkTokenCreateRequest(
         products=[Products("transactions")],
@@ -79,14 +82,15 @@ def create_link_token(request):
 
     response = response.to_dict()
 
-    print(f"1st res {response}")
-
     return Response(response, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
 def exchange_public_token(request):
-    token = request.headers["Authorization"].split(" ")[1]
+    try:
+        token = request.headers["Authorization"].split(" ")[1]
+    except:
+        token = None
     
     if token is None:
         raise AuthenticationFailed('Please log in')
@@ -151,7 +155,11 @@ def login_view(request):
 
 @api_view(['GET'])
 def userView(request):
-    token = request.headers["Authorization"].split(" ")[1]
+    try:
+        token = request.headers["Authorization"].split(" ")[1]
+    except:
+        token = None
+    
     if token is None:
         raise AuthenticationFailed('Please log in')
     try:

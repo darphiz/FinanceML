@@ -4,7 +4,7 @@ import { Register } from "./pages/Register"
 import { useAuth } from "./stores"
 import { Dashboard } from "./pages/Dashboard"
 import shallow from "zustand/shallow"
-import { backend } from "./api_interface"
+import backend from "./api_interface"
 import toast from "react-hot-toast"
 import { useEffect } from "react"
 import { AuthSuspense } from "./AuthSuspense"
@@ -27,6 +27,7 @@ const Navbar = ({ plaidOpen, ready }) => {
       if (response.status === 200) {
         setIsAuthenticated(false)
         localStorage.removeItem("jwt")
+        localStorage.removeItem("link_token")
       }
     } catch (e) {
       console.log(e)
@@ -106,15 +107,6 @@ const App = () => {
 
   const { open, ready, isOauth, createLinkToken, linkToken } = useMyPlaid()
 
-  useEffect(() => {
-    if (linkToken == null && is_authenticated) {
-      createLinkToken()
-    }
-    if (isOauth && ready) {
-      open()
-    }
-  }, [linkToken, isOauth, ready, open, is_authenticated])
-
   const setUserMail = useAuth((state) => state.setUserMail)
   useEffect(() => {
     ;(async () => {
@@ -132,6 +124,16 @@ const App = () => {
       }
     })()
   }, [setIsAuthenticated, setUserMail])
+
+  useEffect(() => {
+    if (linkToken == null && is_authenticated !== "suspense" && is_authenticated) {
+      console.log(is_authenticated)
+      createLinkToken()
+    }
+    if (isOauth && ready) {
+      open()
+    }
+  }, [linkToken, isOauth, ready, open, is_authenticated, createLinkToken])
 
   const ProtectedRoute = ({ auth, children }) => {
     if (!auth) {
